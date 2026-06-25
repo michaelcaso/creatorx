@@ -2,8 +2,13 @@
   command = "npm run build"
   publish = "dist"
 
-# SPA fallback — existing static files (like /landing.html) still serve first
+# Launch the app at /app (and any sub-path)
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/app/*"
+  to = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/app"
+  to = "/app.html"
   status = 200
