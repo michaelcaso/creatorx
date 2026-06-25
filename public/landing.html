@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CreatorX — Build your brand. Leverage AI. Scale your business.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#08090C;--bg:#0A0C11;--surface:#0F131A;--surface2:#141922;--surface3:#1A2029;
+  --line:#1F2630;--line2:#2A323D;--text:#EAEEF5;--muted:#8B95A6;--faint:#5A6473;
+  --accent:#4F8CFF;--accent2:#8B7CFF;--cyan:#38E1D6;--green:#2FD08A;--amber:#F2B14C;--red:#F26D6D;
+  --grad:linear-gradient(135deg,#4F8CFF 0%,#8B7CFF 100%);
+  --grad-soft:linear-gradient(135deg,rgba(79,140,255,.16),rgba(139,124,255,.16));
+  --maxw:1200px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--void);color:var(--text);
+  -webkit-font-smoothing:antialiased;letter-spacing:-.011em;overflow-x:hidden;position:relative}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(1100px 620px at 80% -10%,rgba(79,140,255,.13),transparent 60%),
+  radial-gradient(900px 600px at 5% 8%,rgba(139,124,255,.10),transparent 58%)}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:70px 70px;mask-image:radial-gradient(circle at 50% 0%,#000,transparent 70%)}
+.cursor-glow{position:fixed;width:520px;height:520px;border-radius:50%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(79,140,255,.10),transparent 64%);transform:translate(-50%,-50%);
+  transition:opacity .4s;will-change:left,top;opacity:0}
+.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+.disp{font-family:'Space Grotesk',sans-serif}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:2}
+.eyebrow{font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+.gradtext{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+a{color:inherit;text-decoration:none}
+
+/* ── ticker ── */
+.ticker{position:relative;z-index:3;overflow:hidden;border-bottom:1px solid var(--line);background:rgba(8,9,12,.86);backdrop-filter:blur(10px)}
+.ticker-row{display:flex;gap:46px;white-space:nowrap;width:max-content;animation:tick 44s linear infinite;padding:9px 0}
+.ti{display:flex;align-items:center;gap:9px;font-family:'JetBrains Mono';font-size:12.5px;color:var(--muted)}
+.ti b{color:var(--text);font-weight:600}.up{color:var(--green)}.dn{color:var(--red)}
+.dotpulse{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── nav ── */
+.nav{position:sticky;top:0;z-index:30;background:rgba(8,9,12,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{width:30px;height:30px;border-radius:8px;background:var(--grad);display:flex;align-items:center;justify-content:center}
+.logo svg{width:17px;height:17px}
+.brand .nm{font-family:'Space Grotesk';font-weight:700;font-size:17px}
+.brand .sub{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.14em;color:var(--faint);border:1px solid var(--line2);border-radius:5px;padding:2px 6px}
+.nav-links{display:flex;align-items:center;gap:30px}
+.nav-links a{font-size:14px;color:var(--muted);transition:color .15s}
+.nav-links a:hover{color:var(--text)}
+.btn{font-family:'Space Grotesk';font-weight:600;border:none;cursor:pointer;border-radius:11px;font-size:14.5px;
+  transition:transform .14s,filter .2s,border-color .2s,background .2s;display:inline-flex;align-items:center;gap:9px}
+.btn-grad{background:var(--grad);color:#fff;padding:12px 20px;box-shadow:0 10px 30px -12px rgba(79,140,255,.7)}
+.btn-grad:hover{filter:brightness(1.09);transform:translateY(-1px)}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--line2);padding:12px 20px}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn-lg{padding:16px 28px;font-size:16px;border-radius:13px}
+
+/* ── hero ── */
+.hero{position:relative;padding:84px 0 60px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center}
+.tagpill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line2);background:var(--surface);border-radius:99px;
+  padding:7px 14px 7px 8px;font-size:12.5px;color:var(--muted);margin-bottom:26px}
+.tagpill .b{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.1em;background:var(--grad);color:#fff;border-radius:99px;padding:4px 9px}
+h1.hero-h{font-family:'Space Grotesk';font-weight:700;font-size:clamp(40px,6.4vw,68px);line-height:1.02;letter-spacing:-.035em}
+.hero-sub{color:var(--muted);font-size:clamp(16px,2vw,18.5px);line-height:1.62;max-width:560px;margin-top:24px}
+.hero-cta{display:flex;gap:13px;margin-top:34px;flex-wrap:wrap;align-items:center}
+.hero-meta{display:flex;gap:9px;align-items:center;color:var(--faint);font-size:13px;margin-top:26px}
+.av-row{display:flex}.av-row span{width:26px;height:26px;border-radius:50%;border:2px solid var(--bg);background:var(--surface3);margin-left:-7px;
+  background-image:var(--grad);opacity:.85}
+
+/* terminal card (signature) */
+.terminal{background:linear-gradient(180deg,var(--surface),var(--bg));border:1px solid var(--line2);border-radius:20px;
+  overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.8),0 0 0 1px rgba(79,140,255,.06);position:relative}
+.terminal::after{content:"";position:absolute;inset:0;border-radius:20px;pointer-events:none;
+  background:radial-gradient(120% 80% at 100% 0%,rgba(139,124,255,.12),transparent 55%)}
+.term-bar{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line)}
+.term-dots{display:flex;gap:7px}.term-dots i{width:10px;height:10px;border-radius:50%;background:var(--surface3);border:1px solid var(--line2)}
+.term-live{display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono';font-size:10.5px;color:var(--muted);letter-spacing:.1em}
+.term-body{padding:20px}
+.gauge-wrap{display:flex;align-items:center;gap:18px}
+.gauge svg{width:140px;height:128px;display:block}
+.gauge-meta .tier{font-family:'JetBrains Mono';font-size:11px;color:var(--accent2);letter-spacing:.06em}
+.gauge-meta .lbl{font-size:12px;color:var(--muted);margin-top:3px}
+.gauge-meta .delta{font-family:'Space Grotesk';font-weight:700;font-size:20px;color:var(--green);margin-top:12px}
+.term-rows{margin-top:18px;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.term-line{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--surface)}
+.term-line .k{font-size:12.5px;color:var(--muted)}
+.term-line .v{font-family:'JetBrains Mono';font-size:13px;font-weight:600}
+.spark{margin-top:16px}
+.spark svg{width:100%;height:54px;display:block}
+
+/* ── stat bar ── */
+.statbar{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(15,19,26,.5);margin-top:46px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.stat{padding:30px 24px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat .n{font-family:'Space Grotesk';font-weight:700;font-size:clamp(28px,3.4vw,38px);line-height:1}
+.stat .l{font-size:13px;color:var(--muted);margin-top:9px}
+
+/* ── sections ── */
+.section{padding:96px 0;position:relative}
+.sec-head{max-width:680px;margin-bottom:52px}
+.sec-head h2{font-family:'Space Grotesk';font-weight:700;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.03em;margin-top:14px}
+.sec-head p{color:var(--muted);font-size:17px;line-height:1.6;margin-top:18px}
+
+/* features */
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.feat{position:relative;background:linear-gradient(180deg,var(--surface),var(--bg));border:1px solid var(--line);border-radius:18px;
+  padding:28px;overflow:hidden;transition:transform .2s,border-color .2s}
+.feat:hover{transform:translateY(-3px);border-color:var(--line2)}
+.feat::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;opacity:0;transition:opacity .25s;
+  background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.feat:hover::before{opacity:.5}
+.feat .ic{width:48px;height:48px;border-radius:13px;background:var(--surface3);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--accent);transition:.2s}
+.feat:hover .ic{background:var(--grad);color:#fff;border-color:transparent}
+.feat h3{font-family:'Space Grotesk';font-weight:600;font-size:20px;margin:20px 0 9px}
+.feat p{color:var(--muted);font-size:14.5px;line-height:1.58}
+.feat .meta{font-family:'JetBrains Mono';font-size:11px;color:var(--faint);letter-spacing:.08em;margin-top:16px;display:flex;align-items:center;gap:8px}
+
+/* index showcase */
+.dailyband{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.db-h{font-family:'Space Grotesk';font-weight:700;font-size:clamp(28px,4vw,42px);line-height:1.08;letter-spacing:-.03em;margin-top:14px}
+.db-p{color:var(--muted);font-size:17px;line-height:1.62;margin-top:18px}
+.dailylist{display:flex;flex-direction:column;gap:11px;background:linear-gradient(180deg,var(--surface),var(--bg));border:1px solid var(--line2);border-radius:18px;padding:22px;box-shadow:0 30px 70px -40px rgba(0,0,0,.7)}
+.dl-item{display:flex;align-items:center;gap:14px;padding:13px 15px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.dl-check{width:22px;height:22px;border-radius:6px;background:var(--grad);flex-shrink:0;position:relative}
+.dl-check::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.dl-item b{font-family:'Space Grotesk';font-weight:600;font-size:15px;display:block}
+.dl-item i{font-style:normal;font-size:12.5px;color:var(--muted);display:block;margin-top:2px}
+@media(max-width:900px){.dailyband{grid-template-columns:1fr;gap:30px}}
+.index-show{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
+.bigauge svg{width:100%;max-width:360px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 20px 50px rgba(79,140,255,.2))}
+.vlist{display:flex;flex-direction:column;gap:18px}
+.vrow .vtop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.vrow .vn{font-size:14.5px;font-weight:500}
+.vrow .vv{font-family:'JetBrains Mono';font-size:14px;color:var(--muted)}
+.vbar{height:8px;border-radius:99px;background:var(--surface3);overflow:hidden}
+.vbar i{display:block;height:100%;border-radius:99px;background:var(--grad);width:0;transition:width 1.3s cubic-bezier(.2,.8,.2,1)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
+.step{position:relative;padding:30px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--surface),var(--bg))}
+.step .num{font-family:'JetBrains Mono';font-size:12px;color:var(--accent);letter-spacing:.1em}
+.step h4{font-family:'Space Grotesk';font-weight:600;font-size:19px;margin:12px 0 9px}
+.step p{color:var(--muted);font-size:14.5px;line-height:1.55}
+
+/* founder */
+.founder{background:radial-gradient(140% 130% at 0% 0%,rgba(139,124,255,.13),transparent 52%),linear-gradient(180deg,var(--surface),var(--bg));
+  border:1px solid var(--line2);border-radius:24px;padding:clamp(34px,5vw,60px);position:relative;overflow:hidden}
+.founder .q{font-family:'Space Grotesk';font-weight:600;font-size:clamp(22px,3vw,33px);line-height:1.28;letter-spacing:-.02em;max-width:880px}
+.founder .src{display:flex;align-items:center;gap:14px;margin-top:30px}
+.cred-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.cred{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line2);background:var(--surface2);border-radius:11px;padding:12px 16px}
+.cred .mono{font-family:'JetBrains Mono';font-size:14px;font-weight:600;color:var(--text)}
+.cred span:last-child{font-size:12px;color:var(--muted)}
+.founder .src .a{width:46px;height:46px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;color:#fff}
+.founder .src .nm{font-weight:600;font-size:15px}.founder .src .ro{font-size:13px;color:var(--muted);margin-top:2px}
+
+/* pricing */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.price{background:linear-gradient(180deg,var(--surface),var(--bg));border:1px solid var(--line);border-radius:20px;padding:30px;position:relative}
+.price.hot{border-color:rgba(79,140,255,.5);box-shadow:0 30px 70px -40px rgba(79,140,255,.55)}
+.price.hot::before{content:"MOST POPULAR";position:absolute;top:-1px;right:22px;transform:translateY(-50%);font-family:'JetBrains Mono';font-size:10px;
+  letter-spacing:.12em;background:var(--grad);color:#fff;padding:5px 11px;border-radius:7px}
+.price .tn{font-family:'Space Grotesk';font-weight:600;font-size:17px}
+.price .pr{font-family:'Space Grotesk';font-weight:700;font-size:42px;margin:16px 0 2px;letter-spacing:-.02em}
+.price .pr span{font-size:15px;color:var(--muted);font-weight:500}
+.price ul{list-style:none;margin:22px 0 26px;display:flex;flex-direction:column;gap:12px}
+.price li{font-size:14px;color:var(--muted);display:flex;gap:10px;align-items:flex-start;line-height:1.4}
+.price li svg{flex-shrink:0;margin-top:2px}
+
+/* waitlist */
+.waitlist{text-align:center;position:relative;border:1px solid var(--line2);border-radius:26px;padding:clamp(40px,6vw,72px) 28px;overflow:hidden;
+  background:radial-gradient(120% 120% at 50% 0%,rgba(79,140,255,.14),transparent 58%),linear-gradient(180deg,var(--surface),var(--bg))}
+.waitlist h2{font-family:'Space Grotesk';font-weight:700;font-size:clamp(30px,4.5vw,50px);line-height:1.06;letter-spacing:-.03em}
+.waitlist p{color:var(--muted);font-size:17px;margin:18px auto 0;max-width:540px;line-height:1.6}
+.wl-form{display:flex;gap:11px;max-width:520px;margin:34px auto 0}
+.wl-form input{flex:1;background:var(--surface2);border:1px solid var(--line2);border-radius:13px;color:var(--text);
+  font-family:'Inter';font-size:15.5px;padding:16px 18px;outline:none;transition:.15s}
+.wl-form input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,140,255,.13)}
+.wl-note{font-family:'JetBrains Mono';font-size:12px;color:var(--faint);margin-top:18px;letter-spacing:.04em}
+.wl-success{display:none;flex-direction:column;align-items:center;gap:14px}
+.wl-success.show{display:flex}
+.wl-check{width:58px;height:58px;border-radius:16px;background:rgba(47,208,138,.12);border:1px solid rgba(47,208,138,.3);display:flex;align-items:center;justify-content:center}
+.wl-pos{font-family:'Space Grotesk';font-weight:700;font-size:34px}
+.wl-pos .gradtext{font-size:inherit}
+
+/* footer */
+.footer{border-top:1px solid var(--line);padding:46px 0 60px;margin-top:30px}
+.foot-in{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap}
+.foot-cols{display:flex;gap:60px;flex-wrap:wrap}
+.foot-col h5{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;margin-bottom:14px}
+.foot-col a{display:block;font-size:14px;color:var(--muted);margin-bottom:10px;transition:.15s}
+.foot-col a:hover{color:var(--text)}
+.foot-bottom{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  font-size:12.5px;color:var(--faint)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+.mobile-only{display:none}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:38px}
+  .index-show{grid-template-columns:1fr;gap:34px}
+  .feat-grid,.steps,.price-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}.stat:nth-child(2){border-right:none}
+  .stat{border-bottom:1px solid var(--line)}
+  .nav-links{display:none}.mobile-only{display:inline-flex}
+  .section{padding:64px 0}
+  .cursor-glow{display:none}
+}
+@media(max-width:560px){
+  .wrap{padding:0 18px}.wl-form{flex-direction:column}
+  .stats{grid-template-columns:1fr}.stat{border-right:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="cursor-glow" id="glow"></div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-row" id="ticker"></div>
+</div>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-in">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2a7 7 0 0 0-7 7c0 2 1 3 1 5s-1 2-1 3a4 4 0 0 0 8 0c0-1-1-1-1-3s1-3 1-5a7 7 0 0 0-7-7" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="9" r="2.4" fill="#fff"/></svg></div>
+      <span class="nm">CreatorX</span>
+      <span class="sub">CREATOR OS</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#system">System</a>
+      <a href="#index">The Index</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#story">Story</a>
+    </nav>
+    <a href="#waitlist" class="btn btn-grad">Request access</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="tagpill"><span class="b">v2.0</span> Powered by Michael Caso AI · live</div>
+      <h1 class="hero-h">Build your brand.<br>Leverage AI.<br><span class="gradtext">Scale your business.</span></h1>
+      <p class="hero-sub">CreatorX scores your content business like a credit rating, tells you exactly what to post today, builds it in your voice, and tracks your followers and revenue in real time — engineered by an operator who scales companies to IPO, and proven by 0→120K in 60 days.</p>
+      <div class="hero-cta">
+        <a href="#waitlist" class="btn btn-grad btn-lg">Request founding access <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#index" class="btn btn-ghost btn-lg">See the Index</a>
+      </div>
+      <div class="hero-meta">
+        <div class="av-row"><span></span><span></span><span></span><span></span></div>
+        <span id="waitcount">2,418</span>&nbsp;operators on the waitlist
+      </div>
+    </div>
+
+    <!-- SIGNATURE: live creator terminal -->
+    <div class="terminal reveal">
+      <div class="term-bar">
+        <div class="term-dots"><i></i><i></i><i></i></div>
+        <div class="term-live"><span class="dotpulse"></span>CREATOR INDEX · LIVE</div>
+      </div>
+      <div class="term-body">
+        <div class="gauge-wrap">
+          <div class="gauge" id="gauge"></div>
+          <div class="gauge-meta">
+            <div class="tier">▲ SCALING OPERATOR</div>
+            <div class="lbl">Composite of 6 growth vectors</div>
+            <div class="delta">+5.2 <span style="font-size:12px;color:var(--faint);font-weight:500">/ week</span></div>
+          </div>
+        </div>
+        <div class="term-rows" id="termrows"></div>
+        <div class="spark"><svg id="spark" viewBox="0 0 320 54" preserveAspectRatio="none"></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAT BAR -->
+  <div class="statbar reveal">
+    <div class="wrap stats">
+      <div class="stat"><div class="n"><span class="count" data-to="120" data-suffix="K+">0</span></div><div class="l">Followers in 60 days, the system this is built on</div></div>
+      <div class="stat"><div class="n"><span class="count" data-to="1000">0</span></div><div class="l">Point Creator Index — your content credit score</div></div>
+      <div class="stat"><div class="n"><span class="count" data-to="6">0</span></div><div class="l">Growth vectors scored & tracked continuously</div></div>
+      <div class="stat"><div class="n"><span class="count" data-to="2418" data-comma="1">0</span></div><div class="l">Creators waiting for founding access</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEM / FEATURES -->
+<section class="section" id="system">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">The system</div>
+      <h2>Most tools write you a caption.<br>This runs your growth like a fund.</h2>
+      <p>Generation is the commodity. The edge is knowing your number, knowing what's working in your niche before everyone else, and having an operator in your corner that acts. CreatorX does all four.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12h4l3-8 4 16 3-8h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Creator Index™</h3>
+        <p>One number for the health of your content business — six vectors, weighted and benchmarked against your niche. A credit score for creators, recalculated every week.</p>
+        <div class="meta">● HOOK · RETENTION · ENGAGEMENT · REACH · MONETIZATION · BRAND</div>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-6 4 4 8-10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 5h4v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Real-time growth tracking</h3>
+        <p>Followers, revenue, and pace-to-goal moving like a live market. Connect Instagram and tracking runs itself — milestones flagged on pace, behind, or hit.</p>
+        <div class="meta">● CONNECT INSTAGRAM · AUTO-SYNCED</div>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Signal Scanner</h3>
+        <p>The top viral and highest-engagement content in your niche, refreshed continuously. See the formats and hooks that are winning right now — then recreate them in one tap.</p>
+        <div class="meta">● TOP VIRAL · TOP ENGAGEMENT · TRENDING HOOKS</div>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3a6 6 0 0 0-6 6c0 1.7.8 2.6.8 4.2S6 15 6 16a4 4 0 0 0 8 0c0-1-.8-1.2-.8-2.8S16 10.7 16 9a6 6 0 0 0-6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" transform="translate(2 0)"/></svg></div>
+        <h3>Michael Caso AI</h3>
+        <p>An AI trained on a 0→120K growth system. Ask it anything — it writes hooks, reels, offers, and DMs in your voice, and actually operates the product: "build me 20 hooks and save them," done.</p>
+        <div class="meta">● IN YOUR VOICE · AGENTIC · ALWAYS ON</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DAILY PLAN BAND -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="dailyband reveal">
+      <div>
+        <div class="eyebrow">Never wonder what to post</div>
+        <h2 class="db-h">Open the app.<br>Get today's game plan.</h2>
+        <p class="db-p">Post this reel. Run this 3-slide story. Send these DMs. Every day, every creator gets a done-for-you plan — hooks, captions, CTAs, edits, and trending audio already filled in. Zero guessing.</p>
+      </div>
+      <div class="dailylist">
+        <div class="dl-item"><span class="dl-check"></span><div><b>Post 1 viral reel</b><i>Hook + caption + CTA, ready to copy</i></div></div>
+        <div class="dl-item"><span class="dl-check"></span><div><b>3-slide story sequence</b><i>Hook → quiz → question box</i></div></div>
+        <div class="dl-item"><span class="dl-check"></span><div><b>Repost reel to story</b><i>Drive first-hour engagement</i></div></div>
+        <div class="dl-item"><span class="dl-check"></span><div><b>Send 3–5 DMs</b><i>Scripts that qualify and close</i></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDEX SHOWCASE -->
+<section class="section" id="index" style="border-top:1px solid var(--line);background:rgba(15,19,26,.35)">
+  <div class="wrap">
+    <div class="sec-head reveal" style="max-width:760px">
+      <div class="eyebrow">The Creator Index™</div>
+      <h2>The number every creator will be measured by.</h2>
+      <p>FICO scored credit. We score reach. Your Index distills everything that drives growth and revenue into a single, benchmarked figure — so you always know exactly where you stand and what to fix next.</p>
+    </div>
+    <div class="index-show">
+      <div class="bigauge reveal"><div id="biggauge"></div></div>
+      <div class="vlist reveal">
+        <div class="vrow"><div class="vtop"><span class="vn">Hook Power</span><span class="vv">84 / 100</span></div><div class="vbar"><i data-w="84"></i></div></div>
+        <div class="vrow"><div class="vtop"><span class="vn">Retention</span><span class="vv">79 / 100</span></div><div class="vbar"><i data-w="79"></i></div></div>
+        <div class="vrow"><div class="vtop"><span class="vn">Engagement Velocity</span><span class="vv">72 / 100</span></div><div class="vbar"><i data-w="72"></i></div></div>
+        <div class="vrow"><div class="vtop"><span class="vn">Distribution Reach</span><span class="vv">68 / 100</span></div><div class="vbar"><i data-w="68"></i></div></div>
+        <div class="vrow"><div class="vtop"><span class="vn">Monetization Readiness</span><span class="vv">61 / 100</span></div><div class="vbar"><i data-w="61"></i></div></div>
+        <div class="vrow"><div class="vtop"><span class="vn">Brand Clarity</span><span class="vv">88 / 100</span></div><div class="vbar"><i data-w="88"></i></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">How it works</div>
+      <h2>From "I don't know what to post" to a system, in minutes.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="num">STEP 01</div><h4>Run the assessment</h4><p>A 20-point intelligence assessment reads your niche, audience, offers, and goals — then calibrates everything to you.</p></div>
+      <div class="step reveal"><div class="num">STEP 02</div><h4>Get your Index & dashboard</h4><p>Your Creator Index, six growth vectors, niche benchmarks, and a live command center — generated in seconds.</p></div>
+      <div class="step reveal"><div class="num">STEP 03</div><h4>Build, track, grow — on pace</h4><p>Generate content in your voice, watch your numbers move, and let the AI keep you on pace to your revenue goal.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER / STORY -->
+<section class="section" id="story">
+  <div class="wrap">
+    <div class="founder reveal">
+      <div class="eyebrow" style="margin-bottom:22px">The operator behind it</div>
+      <div class="q">Going 0 to 120K in 60 days wasn't luck. It was an operator's playbook — applied to content.</div>
+      <p style="color:var(--muted);font-size:17px;line-height:1.7;max-width:760px;margin-top:24px">Michael has spent his career taking companies from stage one to IPO, and investing in and helping build some of the most important technology companies of this era — across AI and frontier tech. He's an expert in AI, automation, machine learning, and the algorithms that decide what goes viral. CreatorX is what happens when that operator mindset gets pointed at the creator economy.</p>
+      <div class="cred-strip">
+        <div class="cred"><span class="mono">IPO-stage</span><span>operator & builder</span></div>
+        <div class="cred"><span class="mono">Frontier-tech</span><span>investor</span></div>
+        <div class="cred"><span class="mono">AI · ML</span><span>automation expert</span></div>
+        <div class="cred"><span class="mono">0 → 120K</span><span>in 60 days</span></div>
+      </div>
+      <div class="src">
+        <div class="a">MC</div>
+        <div>
+          <div class="nm">Michael Caso</div>
+          <div class="ro">Founder · investor · creator — the engine behind CreatorX</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="border-top:1px solid var(--line);background:rgba(15,19,26,.35)">
+  <div class="wrap">
+    <div class="sec-head reveal" style="max-width:640px">
+      <div class="eyebrow">Founding access</div>
+      <h2>Priced to pay for itself in one post.</h2>
+      <p>Lock founding-member pricing now. It never goes up for you.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price reveal">
+        <div class="tn">Starter</div>
+        <div class="pr">$29<span>/mo</span></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Creator Index & assessment</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Hook, caption & story tools</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Basic growth tracking</li>
+        </ul>
+        <a href="#waitlist" class="btn btn-ghost" style="width:100%;justify-content:center">Join waitlist</a>
+      </div>
+      <div class="price hot reveal">
+        <div class="tn">Pro</div>
+        <div class="pr">$79<span>/mo</span></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Starter</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Michael Caso AI — agentic, in your voice</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Full Studio · DM Closer · Offer Architect</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Signal Scanner & cross-platform engine</li>
+        </ul>
+        <a href="#waitlist" class="btn btn-grad" style="width:100%;justify-content:center">Get founding access</a>
+      </div>
+      <div class="price reveal">
+        <div class="tn">Elite</div>
+        <div class="pr">$149<span>/mo</span></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Pro</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Launch Builder & lead-magnet engine</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Multiple brand profiles & priority AI</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Weekly AI strategy report</li>
+        </ul>
+        <a href="#waitlist" class="btn btn-ghost" style="width:100%;justify-content:center">Join waitlist</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="section" id="waitlist">
+  <div class="wrap">
+    <div class="waitlist reveal">
+      <div class="wl-default" id="wlDefault">
+        <div class="eyebrow" style="margin-bottom:18px">Founding cohort · limited</div>
+        <h2>Get in before the<br>doors open.</h2>
+        <p>Founding members lock lifetime pricing and shape the product. Drop your email and claim your place in line.</p>
+        <div class="wl-form">
+          <input type="email" id="wlEmail" placeholder="you@email.com" autocomplete="email"/>
+          <button class="btn btn-grad btn-lg" id="wlBtn" style="white-space:nowrap">Claim my spot</button>
+        </div>
+        <div class="wl-note">NO SPAM · FOUNDING-MEMBER PRICING LOCKED AT SIGNUP</div>
+      </div>
+      <div class="wl-success" id="wlSuccess">
+        <div class="wl-check"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#2FD08A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="eyebrow">You're on the list</div>
+        <div class="wl-pos">You're <span class="gradtext" id="wlPos">#2,419</span> in line</div>
+        <p style="margin-top:4px">Founding-member pricing is locked. We'll email you the moment your access opens.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-in">
+      <div style="max-width:300px">
+        <div class="brand" style="margin-bottom:14px">
+          <div class="logo"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2a7 7 0 0 0-7 7c0 2 1 3 1 5s-1 2-1 3a4 4 0 0 0 8 0c0-1-1-1-1-3s1-3 1-5a7 7 0 0 0-7-7" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="9" r="2.4" fill="#fff"/></svg></div>
+          <span class="nm" style="font-family:'Space Grotesk';font-weight:700;font-size:17px">CreatorX</span>
+        </div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">The operating system for the creator economy. Powered by Michael Caso AI.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h5>Product</h5><a href="#system">System</a><a href="#index">The Index</a><a href="#pricing">Pricing</a></div>
+        <div class="foot-col"><h5>Company</h5><a href="#story">Story</a><a href="#waitlist">Waitlist</a><a href="#">Careers</a></div>
+        <div class="foot-col"><h5>Legal</h5><a href="#">Privacy</a><a href="#">Terms</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 CreatorX. All rights reserved.</span>
+      <span class="mono">BUILT FOR OPERATORS · v2.0</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* cursor glow */
+const glow=document.getElementById('glow');
+let gx=innerWidth/2,gy=innerHeight/2,cx=gx,cy=gy,raf;
+addEventListener('mousemove',e=>{gx=e.clientX;gy=e.clientY;glow.style.opacity=1;if(!raf)raf=requestAnimationFrame(loop)});
+function loop(){cx+=(gx-cx)*.12;cy+=(gy-cy)*.12;glow.style.left=cx+'px';glow.style.top=cy+'px';
+  if(Math.abs(gx-cx)>.5||Math.abs(gy-cy)>.5){raf=requestAnimationFrame(loop)}else{raf=null}}
+
+/* ticker build */
+const tdata=[['CREATOR INDEX','847','+5.2',1],['HOOK POWER','84','+4.2',1],['RETENTION','79','+2.8',1],
+['ENGAGEMENT','72','-1.1',0],['REACH','68','+3.4',1],['MONETIZATION','61','+5.6',1],['BRAND CLARITY','88','+3.0',1],
+['FOLLOWERS','128.4K','+6.1',1],['PROJECTED 90D','990','▲',1]];
+const trow=document.getElementById('ticker');
+function tickerItem([l,v,d,up]){return `<span class="ti"><span class="dotpulse"></span>${l} <b>${v}</b><span class="${up?'up':'dn'}">${d}</span></span>`}
+trow.innerHTML=[...tdata,...tdata].map(tickerItem).join('');
+
+/* gauge drawing */
+function drawGauge(el,value,size){
+  const w=size,h=size*0.92,cxp=w/2,cyp=w/2,r=w*0.40,start=135,sweep=270,pct=Math.min(1,value/1000);
+  const pt=(deg)=>[cxp+r*Math.cos(deg*Math.PI/180),cyp+r*Math.sin(deg*Math.PI/180)];
+  const[bx,by]=pt(start),[tx,ty]=pt(start+sweep);
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+  svg.innerHTML=`<defs><linearGradient id="gg${size}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4F8CFF"/><stop offset="100%" stop-color="#8B7CFF"/></linearGradient>
+    <filter id="gl${size}"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+  const track=document.createElementNS(ns,'path');
+  track.setAttribute('d',`M ${bx} ${by} A ${r} ${r} 0 1 1 ${tx} ${ty}`);
+  track.setAttribute('fill','none');track.setAttribute('stroke','#1A2029');track.setAttribute('stroke-width',size*0.055);track.setAttribute('stroke-linecap','round');
+  svg.appendChild(track);
+  const arc=document.createElementNS(ns,'path');arc.setAttribute('fill','none');arc.setAttribute('stroke',`url(#gg${size})`);
+  arc.setAttribute('stroke-width',size*0.055);arc.setAttribute('stroke-linecap','round');arc.setAttribute('filter',`url(#gl${size})`);
+  svg.appendChild(arc);
+  const dot=document.createElementNS(ns,'circle');dot.setAttribute('r',size*0.028);dot.setAttribute('fill','#fff');svg.appendChild(dot);
+  const num=document.createElementNS(ns,'text');num.setAttribute('x',cxp);num.setAttribute('y',cyp-size*0.01);num.setAttribute('text-anchor','middle');
+  num.setAttribute('font-family','Space Grotesk');num.setAttribute('font-weight','700');num.setAttribute('font-size',size*0.21);num.setAttribute('fill','#EAEEF5');svg.appendChild(num);
+  const lab=document.createElementNS(ns,'text');lab.setAttribute('x',cxp);lab.setAttribute('y',cyp+size*0.10);lab.setAttribute('text-anchor','middle');
+  lab.setAttribute('font-family','JetBrains Mono');lab.setAttribute('font-size',size*0.052);lab.setAttribute('letter-spacing','2');lab.setAttribute('fill','#5A6473');lab.textContent='/ 1000';svg.appendChild(lab);
+  el.appendChild(svg);
+  let cur=0;const t0=performance.now(),dur=1500;
+  function anim(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3),val=Math.round(value*e),vp=pct*e;
+    const a1=start+sweep*vp,[vx,vy]=pt(a1),large=sweep*vp>180?1:0;
+    arc.setAttribute('d',`M ${bx} ${by} A ${r} ${r} 0 ${large} 1 ${vx} ${vy}`);
+    dot.setAttribute('cx',vx);dot.setAttribute('cy',vy);num.textContent=val;
+    if(p<1)requestAnimationFrame(anim)}
+  requestAnimationFrame(anim);
+}
+
+/* term rows live */
+const rowsEl=document.getElementById('termrows');
+let metrics=[['Followers',128400,'',0],['Revenue / mo',6240,'$',0],['Engagement rate',8.4,'','%'],['Reach · 7d',412000,'',0]];
+function fmtN(n){return n>=1000?(n/1000).toFixed(n>=100000?1:1).replace(/\.0$/,'')+'K':Math.round(n)}
+function renderRows(){rowsEl.innerHTML=metrics.map(([k,v,pre,suf])=>{
+  const val=(pre||'')+(typeof suf==='string'&&suf==='%'?v.toFixed(1):fmtN(v))+(suf==='%'?'%':'');
+  return `<div class="term-line"><span class="k">${k}</span><span class="v">${val}</span></div>`}).join('')}
+renderRows();
+setInterval(()=>{metrics=metrics.map(([k,v,pre,suf])=>{const drift=suf==='%'?(Math.random()*.1-.03):(v*(Math.random()*.004));return[k,Math.max(0,v+drift),pre,suf]});renderRows()},2200);
+
+/* sparkline live */
+const sp=document.getElementById('spark');const spNS='http://www.w3.org/2000/svg';
+let pts=Array.from({length:24},(_,i)=>20+Math.sin(i*0.5)*9+Math.random()*6);
+sp.innerHTML=`<defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4F8CFF" stop-opacity=".4"/><stop offset="100%" stop-color="#8B7CFF" stop-opacity="0"/></linearGradient></defs>`;
+const fill=document.createElementNS(spNS,'path');fill.setAttribute('fill','url(#spg)');sp.appendChild(fill);
+const line=document.createElementNS(spNS,'path');line.setAttribute('fill','none');line.setAttribute('stroke','#6E8FFF');line.setAttribute('stroke-width','2');sp.appendChild(line);
+function drawSpark(){const W=320,H=54,step=W/(pts.length-1);
+  const d=pts.map((y,i)=>`${i?'L':'M'} ${(i*step).toFixed(1)} ${(H-y).toFixed(1)}`).join(' ');
+  line.setAttribute('d',d);fill.setAttribute('d',d+` L ${W} ${H} L 0 ${H} Z`)}
+drawSpark();
+setInterval(()=>{pts.shift();pts.push(20+Math.random()*22);drawSpark()},1600);
+
+/* counters */
+function animCount(el){const to=+el.dataset.to,suf=el.dataset.suffix||'',comma=el.dataset.comma,t0=performance.now(),dur=1600;
+  function a(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);let v=Math.round(to*e);
+    el.textContent=(comma?v.toLocaleString():v)+suf;if(p<1)requestAnimationFrame(a)}requestAnimationFrame(a)}
+
+/* reveal + trigger animations on view */
+const io=new IntersectionObserver((es)=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');
+  en.target.querySelectorAll&&en.target.querySelectorAll('.count').forEach(animCount);
+  en.target.querySelectorAll&&en.target.querySelectorAll('.vbar i').forEach(b=>b.style.width=b.dataset.w+'%');
+  io.unobserve(en.target)}})},{threshold:.18});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i,4)*60)+'ms';io.observe(el)});
+document.querySelectorAll('.count').forEach(c=>{}); // counts handled when statbar reveals
+// also observe standalone count containers in case not wrapped
+const statbar=document.querySelector('.statbar');if(statbar){io.observe(statbar)}
+
+/* draw gauges */
+drawGauge(document.getElementById('gauge'),847,140);
+const bigEl=document.getElementById('biggauge');
+const bigIO=new IntersectionObserver((es)=>{es.forEach(en=>{if(en.isIntersecting){drawGauge(bigEl,847,340);bigIO.disconnect()}})},{threshold:.3});
+bigIO.observe(bigEl);
+
+/* waitlist */
+let base=2418;
+const wc=document.getElementById('waitcount');
+function bump(){base+=Math.floor(Math.random()*2);wc.textContent=base.toLocaleString()}
+setInterval(bump,5200);
+const btn=document.getElementById('wlBtn'),email=document.getElementById('wlEmail');
+function submit(){const v=email.value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){email.style.borderColor='#F26D6D';email.focus();return}
+  base+=1;document.getElementById('wlPos').textContent='#'+base.toLocaleString();
+  document.getElementById('wlDefault').style.display='none';document.getElementById('wlSuccess').classList.add('show');
+  wc.textContent=base.toLocaleString()}
+btn.addEventListener('click',submit);
+email.addEventListener('keydown',e=>{if(e.key==='Enter')submit();email.style.borderColor=''});
+</script>
+</body>
+</html>
